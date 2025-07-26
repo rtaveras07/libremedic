@@ -1,8 +1,7 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database';
- 
 import Patient from './patients';
-
+import User from './User';
 const Diagnostic = sequelize.define('diagnostics', {
   id: {
     type: Sequelize.INTEGER,
@@ -52,14 +51,15 @@ const Diagnostic = sequelize.define('diagnostics', {
       key: 'id'
     }
   },
-   
-}, {
-  timestamps: true,
-  tableName: 'diagnostics'
+  
 });
+// Relationships with patients and users
 
- 
-Patient.hasMany(Diagnostic, { foreignKey: 'patientId', as: 'Diagnostics' });
-Diagnostic.belongsTo(Patient, { foreignKey: 'patientId', as: 'Patient' });
+Diagnostic.belongsTo(Patient, { foreignKey: 'patientId', onDelete: 'CASCADE' });
+
+Diagnostic.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
+// Assuming you have a User model, you can also define the relationship
+User.hasMany(Diagnostic, { foreignKey: 'userId', onDelete: 'CASCADE' });
+// If you have a Clinic model, import it here
 
 export default Diagnostic; 

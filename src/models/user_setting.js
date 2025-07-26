@@ -20,15 +20,7 @@ const UserSetting = sequelize.define('user_settings', {
     },
     onDelete: 'CASCADE'
   },
-  clinic_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'clinics',
-      key: 'id'
-    },
-    onDelete: 'CASCADE'
-  },
+  
   header_image_url: {
     type: Sequelize.TEXT,
     allowNull: true
@@ -50,22 +42,8 @@ const UserSetting = sequelize.define('user_settings', {
     allowNull: false,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
   }
-}, {
-  timestamps: false,
-  tableName: 'user_settings',
-  indexes: [
-    {
-      unique: true,
-      fields: ['user_id', 'clinic_id']
-    }
-  ]
-});
+},   );
 
 User.hasMany(UserSetting, { foreignKey: 'user_id', onDelete: 'CASCADE' });
 UserSetting.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-
-// If you have a Clinic model, you can add associations like:
-// Clinic.hasMany(UserSetting, { foreignKey: 'clinic_id', onDelete: 'CASCADE' });
-// UserSetting.belongsTo(Clinic, { foreignKey: 'clinic_id', onDelete: 'CASCADE' });
-
 export default UserSetting;

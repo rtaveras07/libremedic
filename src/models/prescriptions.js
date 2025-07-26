@@ -1,8 +1,7 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database';
-import User from './User';
 import Patient from './patients';
-
+import User from './User';
 const Prescription = sequelize.define('prescriptions', {
   id: {
     type: Sequelize.INTEGER,
@@ -42,13 +41,8 @@ const Prescription = sequelize.define('prescriptions', {
     allowNull: false
   }
 }, {});
-
- //relation with user and patient
-
-User.hasMany(Prescription, { foreignKey: 'prescribedBy', onDelete: 'CASCADE' });
-Patient.hasMany(Prescription, { foreignKey: 'patientId', onDelete: 'CASCADE' });
-Prescription.belongsTo(User, { foreignKey: 'prescribedBy', onDelete: 'CASCADE' });
-Prescription.belongsTo(Patient, { foreignKey: 'patientId', onDelete: 'CASCADE' });
-
+//relationships
+Prescription.belongsTo(Patient, { foreignKey: 'patientId' });
+Prescription.belongsTo(User, { foreignKey: 'prescribedBy' });
 
 export default Prescription;

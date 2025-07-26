@@ -1,13 +1,13 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database';
 import User from './User';
-
 const Patient = sequelize.define('patients', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
+  
   firstName: {
     type: Sequelize.STRING,
     allowNull: false
@@ -16,14 +16,18 @@ const Patient = sequelize.define('patients', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  identificationNumber: {
+  email: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: true
   },
+  phone: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
   dateOfBirth: {
     type: Sequelize.DATEONLY,
-    allowNull: true
+    allowNull: false
   },
   gender: {
     type: Sequelize.STRING,
@@ -33,18 +37,33 @@ const Patient = sequelize.define('patients', {
     type: Sequelize.STRING,
     allowNull: true
   },
-  phone: {
+  emergencyContact: {
     type: Sequelize.STRING,
     allowNull: true
   },
-  email: {
+  emergencyPhone: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
+    allowNull: true
+  },
+  bloodType: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  allergies: {
+    type: Sequelize.TEXT,
+    allowNull: true
+  },
+  medicalHistory: {
+    type: Sequelize.TEXT,
+    allowNull: true
   }
-}, {});
+}, {
+  timestamps: true,
+  tableName: 'patients'
+});
+//relationships user
+Patient.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Patient, { foreignKey: 'userId', onDelete: 'CASCADE' });
 
-User.hasMany(Patient);
-Patient.belongsTo(User);
 
 export default Patient;

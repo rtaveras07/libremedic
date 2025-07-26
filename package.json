@@ -5,9 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "npm run lint -s && nodemon src/index.js --exec babel-node",
+    "dev:no-seed": "AUTO_SEED=false npm run lint -s && nodemon src/index.js --exec babel-node",
     "build": "babel src --out-dir dist",
     "start": "node dist/index.js",
-    "lint": "eslint ./src/"
+    "start:no-seed": "AUTO_SEED=false node dist/index.js",
+    "lint": "eslint ./src/",
+    "seed": "babel-node src/database/seedDatabase.js",
+    "seed:force": "babel-node src/database/seedDatabase.js --force",
+    "test:db": "babel-node src/database/testConnection.js"
   },
   "keywords": [],
   "author": "",
