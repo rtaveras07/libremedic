@@ -5,8 +5,6 @@ import MedicalCenter from '../models/medical_center';
 import Prescription from '../models/prescriptions';
 import Diagnostic from '../models/diagnostics';
 
-import UserSetting from '../models/user_setting';
-
 // Establish relationships after all models are imported
 // This prevents circular import issues
 
@@ -23,9 +21,6 @@ Prescription.belongsTo(User, { foreignKey: 'prescribedBy' });
 User.hasMany(Diagnostic, { foreignKey: 'doctorId', as: 'Diagnostics' });
 Diagnostic.belongsTo(User, { foreignKey: 'doctorId', as: 'Doctor' });
 
-User.hasMany(UserSetting, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-UserSetting.belongsTo(User, { foreignKey: 'user_id', onDelete: 'CASCADE' });
-
 // Patient relationships
 Patient.hasMany(Prescription, { foreignKey: 'patientId' });
 Prescription.belongsTo(Patient, { foreignKey: 'patientId' });
@@ -39,9 +34,7 @@ export {
   Patient,
   MedicalCenter,
   Prescription,
-  Diagnostic,
-
-  UserSetting
+  Diagnostic
 };
 
 export default {
@@ -49,7 +42,5 @@ export default {
   Patient,
   MedicalCenter,
   Prescription,
-  Diagnostic,
- 
-  UserSetting
+  Diagnostic
 }; 

@@ -175,8 +175,51 @@ Los seeds están diseñados para ser extensibles y fáciles de modificar según 
 | `npm run seed` | Ejecutar seeds manualmente |
 | `npm run seed:force` | Ejecutar seeds con opciones adicionales |
 | `npm run test:db` | Probar conexión y modelos de base de datos |
+| `npm run test:patient` | Probar creación de pacientes con userId |
+| `npm run test:relationships` | Probar todas las relaciones entre modelos |
 
 ## 🔧 Solución de Problemas
+
+### Error: "SequelizeEagerLoadingError"
+
+Si encuentras este error al hacer GET requests a endpoints como `/medical-centers`, significa que hay un problema con las relaciones entre modelos:
+
+1. **Probar todas las relaciones:**
+   ```bash
+   npm run test:relationships
+   ```
+
+2. **Verificar que las relaciones estén correctamente definidas:**
+   - Las relaciones deben estar definidas en `src/database/models.js`
+   - Los servicios deben usar los alias correctos (o sin alias si no están definidos)
+
+3. **Problemas comunes:**
+   - Usar alias `'User'` cuando la relación no tiene alias definido
+   - Usar atributos incorrectos (ej: `'name'` en lugar de `'firstName'`, `'lastName'`)
+   - Relaciones duplicadas o conflictivas
+
+4. **Soluciones:**
+   ```javascript
+   // ❌ Incorrecto - usando alias que no existe
+   include: [{
+     model: User,
+     as: 'User',  // Este alias no está definido
+     attributes: ['id', 'name', 'email']
+   }]
+   
+   // ✅ Correcto - sin alias
+   include: [{
+     model: User,
+     attributes: ['id', 'firstName', 'lastName', 'email']
+   }]
+   
+   // ✅ Correcto - con alias definido
+   include: [{
+     model: User,
+     as: 'Doctor',  // Este alias está definido
+     attributes: ['id', 'firstName', 'lastName', 'email']
+   }]
+   ```
 
 ### Error: "relation 'users' does not exist"
 
@@ -212,6 +255,32 @@ Si encuentras este error, significa que hay un problema con la sincronización d
    npm run seed
    ```
 
+### Error: userId es null en pacientes
+
+Si el campo `userId` aparece como `null` al crear pacientes:
+
+1. **Verificar que el campo userId esté definido en el modelo:**
+   - El modelo `patients.js` debe tener el campo `userId` explícitamente definido
+   - Verificar que las relaciones estén correctamente establecidas
+
+2. **Probar creación de pacientes:**
+   ```bash
+   npm run test:patient
+   ```
+
+3. **Verificar datos de seed:**
+   - Asegurarse de que todos los pacientes en `PatientSeeds.js` tengan `userId` (no `userid`)
+   - Verificar que el `userId` corresponda a un usuario existente
+
+4. **Verificar relaciones en el código:**
+   ```javascript
+   // En el controlador, asegurarse de incluir userId
+   const newPatient = {
+     ...req.body,
+     userId: req.body.userId || req.user.id // o el ID del usuario actual
+   };
+   ```
+
 ### Problemas de relaciones entre modelos
 
 Si hay problemas con las relaciones entre modelos:
@@ -219,6 +288,7 @@ Si hay problemas con las relaciones entre modelos:
 1. Verifica que todos los modelos estén importados en `src/database/models.js`
 2. Asegúrate de que las claves foráneas estén correctamente definidas
 3. Ejecuta `npm run test:db` para verificar que los modelos se cargan correctamente
+4. Ejecuta `npm run test:relationships` para verificar que todas las relaciones funcionan
 
 ### Logs de depuración
 

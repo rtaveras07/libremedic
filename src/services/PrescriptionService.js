@@ -21,8 +21,7 @@ class PrescriptionService {
         include: [
           {
             model: require('../models/User').default,
-            as: 'User',
-            attributes: ['id', 'name', 'email']
+            attributes: ['id', 'firstName', 'lastName', 'email']
           }
         ]
       });
@@ -42,8 +41,7 @@ class PrescriptionService {
         include: [
           {
             model: require('../models/User').default,
-            as: 'User',
-            attributes: ['id', 'name', 'email']
+            attributes: ['id', 'firstName', 'lastName', 'email']
           }
         ]
       });
@@ -86,8 +84,7 @@ class PrescriptionService {
         include: [
           {
             model: require('../models/User').default,
-            as: 'User',
-            attributes: ['id', 'name', 'email']
+            attributes: ['id', 'firstName', 'lastName', 'email']
           }
         ],
         order: [['createdAt', 'DESC']]

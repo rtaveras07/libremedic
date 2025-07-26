@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database';
-import Patient from './patients';
-import User from './User';
+
 const Prescription = sequelize.define('prescriptions', {
   id: {
     type: Sequelize.INTEGER,
@@ -41,8 +40,5 @@ const Prescription = sequelize.define('prescriptions', {
     allowNull: false
   }
 }, {});
-//relationships
-Prescription.belongsTo(Patient, { foreignKey: 'patientId' });
-Prescription.belongsTo(User, { foreignKey: 'prescribedBy' });
 
 export default Prescription;

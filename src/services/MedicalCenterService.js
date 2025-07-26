@@ -21,7 +21,6 @@ class MedicalCenterService {
         include: [
           {
             model: require('../models/User').default,
-            as: 'User',
             attributes: ['id', 'firstName', 'lastName', 'email']
           }
         ]
@@ -42,7 +41,6 @@ class MedicalCenterService {
         include: [
           {
             model: require('../models/User').default,
-            as: 'User',
             attributes: ['id', 'firstName', 'lastName', 'email']
           }
         ]
@@ -86,7 +84,6 @@ class MedicalCenterService {
         include: [
           {
             model: require('../models/User').default,
-            as: 'User',
             attributes: ['id', 'firstName', 'lastName', 'email']
           }
         ],

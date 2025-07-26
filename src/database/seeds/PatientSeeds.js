@@ -2,7 +2,7 @@ import Patient from '../../models/patients';
 
 const patientSeeds = [
   {
-    userid: 1,
+    userId: 1,
     firstName: 'Juan Carlos',
     lastName: 'Pérez',
     email: 'juan.perez@email.com',

@@ -1,13 +1,12 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database';
-import User from './User';
+
 const Patient = sequelize.define('patients', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  
   firstName: {
     type: Sequelize.STRING,
     allowNull: false
@@ -56,14 +55,18 @@ const Patient = sequelize.define('patients', {
   medicalHistory: {
     type: Sequelize.TEXT,
     allowNull: true
+  },
+  userId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    }
   }
 }, {
   timestamps: true,
   tableName: 'patients'
 });
-//relationships user
-Patient.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Patient, { foreignKey: 'userId', onDelete: 'CASCADE' });
-
 
 export default Patient;
