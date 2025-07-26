@@ -12,7 +12,7 @@ class PatientsController {
       res.status(500).json({
         message: 'Something goes wrong',
         data: error
-      });
+      }); 
     }
   }
 
