@@ -14,6 +14,7 @@
     "seed:force": "babel-node src/database/seedDatabase.js --force",
     "test:db": "babel-node src/database/testConnection.js",
     "test:patient": "babel-node src/database/testPatientCreation.js",
+    "test:diagnostic": "babel-node src/database/testDiagnosticCreation.js",
     "test:relationships": "babel-node src/database/testRelationships.js"
   },
   "keywords": [],

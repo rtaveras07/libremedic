@@ -177,6 +177,7 @@ Los seeds están diseñados para ser extensibles y fáciles de modificar según 
 | `npm run test:db` | Probar conexión y modelos de base de datos |
 | `npm run test:patient` | Probar creación de pacientes con userId |
 | `npm run test:relationships` | Probar todas las relaciones entre modelos |
+| `npm run test:diagnostic` | Probar creación de diagnósticos con doctorId |
 
 ## 🔧 Solución de Problemas
 
@@ -219,6 +220,33 @@ Si encuentras este error al hacer GET requests a endpoints como `/medical-center
      as: 'Doctor',  // Este alias está definido
      attributes: ['id', 'firstName', 'lastName', 'email']
    }]
+   ```
+
+### Error: doctorId es null en diagnósticos
+
+Si el campo `doctorId` aparece como `null` al crear diagnósticos:
+
+1. **Verificar que el campo doctorId esté definido en el modelo:**
+   - El modelo `diagnostics.js` debe tener el campo `doctorId` explícitamente definido
+   - Verificar que las relaciones estén correctamente establecidas
+
+2. **Probar creación de diagnósticos:**
+   ```bash
+   npm run test:diagnostic
+   ```
+
+3. **Verificar datos de seed:**
+   - Asegurarse de que todos los diagnósticos en `DiagnosticSeeds.js` tengan `doctorId`
+   - Verificar que el `doctorId` corresponda a un usuario existente
+   - Verificar que el `patientId` corresponda a un paciente existente
+
+4. **Verificar relaciones en el código:**
+   ```javascript
+   // En el controlador, asegurarse de incluir doctorId
+   const newDiagnostic = {
+     ...req.body,
+     doctorId: req.body.doctorId || req.user.id // o el ID del doctor actual
+   };
    ```
 
 ### Error: "relation 'users' does not exist"
