@@ -1,0 +1,19 @@
+version: '3'
+services:
+  medic-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - ${PORT}:${PORT}
+
+  medic-api-db:
+    image: postgres:9.6
+    ports:
+      - "5101:5432"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
