@@ -1,7 +1,6 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../database/database';
-import Patient from './patients';
-import User from './User';
+ 
 const Diagnostic = sequelize.define('diagnostics', {
   id: {
     type: Sequelize.INTEGER,
